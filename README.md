@@ -1,8 +1,8 @@
 # _A To Do_
 
-#### _A To Do app built to work with myAQL database, 8/5/2015_
+#### _A To Do app built to work with mySQL database, 8/5/2015_
 
-#### By _**Charles Moss**_
+#### By _**Charles Moss & Tim White**_
 
 ## Description
 An input field accepts a "task" and adds it to a list after confirming it's addition. A "clear" button remove all of the tasks.
@@ -23,7 +23,7 @@ _This project makes use of PHP, the testing framework [PHPUnit](https://phpunit.
 
 
 
-Copyright (c) 2015 Charles A Moss 
+Copyright (c) 2015 Charles A Moss & Tim White
 
 This software is licensed under the MIT license.
 
