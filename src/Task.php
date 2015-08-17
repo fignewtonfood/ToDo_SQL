@@ -2,11 +2,13 @@
 class Task
 {
     private $description;
+    private $id;
 
-    function __construct($description)
+    function __construct($description, $id=null)
     {
 
         $this->description = $description;
+        $this->id =$id;
 
     }
 
@@ -24,6 +26,13 @@ class Task
 
     }
 
+    function getId()
+    {
+
+        return $this->id;
+
+    }
+
     // function save() {
     //
     //     array_push($_SESSION['list_of_tasks'], $this);
@@ -34,6 +43,7 @@ class Task
     {
 
         $GLOBALS['DB']->exec("INSERT INTO tasks (description) VALUES ('{$this->getDescription()}');");
+        $this->id = $GLOBALS['DB']->lastInsertId();
 
     }
 
