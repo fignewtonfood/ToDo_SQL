@@ -100,6 +100,7 @@
             $description = "Wash the dog";
             $category_id = $test_category->getId();
             $test_task = new Task($description, $id, $category_id);
+            $test_task->save();
 
             //Act
             $result = $test_task->getId();
