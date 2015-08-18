@@ -1,31 +1,42 @@
 <html>
     <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
         <title>To Do List</title>
     </head>
     <body>
-        <h1>{{ category.getName }}</h1>
+        <div class = 'container'>
+            <div class='jumbotron'>
+                <h1>{{ category.getName }}</h1>
+            </div>
+        </div>
 
-        {% if tasks is not empty %}
-            <p>Here are the tasks:</p>
-            <ul>
-                {% for task in tasks %}
-                    <li>{{ task.getDescription }} - {{ task.getDate }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+        <div class = 'container'>
+            {% if tasks is not empty %}
+                <p>Here are the tasks:</p>
+                <ul>
+                    {% for task in tasks %}
+                        <li>{{ task.getDescription }} - {{ task.getDate | date("m/d/Y")}}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
 
-        <h4>Add a task</h4>
+        <div class = 'container'>
+            <h4>Add a task</h4>
 
-        <form action="/tasks" method="post">
-            <input type="hidden" name="category_id" id="category_id" value="{{ category.getId() }}">
-            <label for='description'>Task Description</label>
-            <input id='description' name='description' type='text'>
-            <label for='due_date'>Due Date</label>
-            <input type='date' name='due_date' id='due_date'>
+            <form action="/tasks" method="post">
+                <input type="hidden" name="category_id" id="category_id" value="{{ category.getId() }}">
+                <label for='description'>Task Description</label>
+                <input id='description' name='description' type='text' required>
+                <label for='due_date'>Due Date</label>
+                <input type='date' name='due_date' id='due_date' required>
 
-            <button type='submit'>Add task</button>
-        </form>
+                <button type='submit'>Add task</button>
+            </form>
+        </div>
 
-        <p><a href='/'>Home</a></p>
+        <footer class='footer'>
+                <p><a href='/'>Home</a></p>
+        </footer>
     </body>
 </html>

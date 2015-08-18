@@ -21,11 +21,12 @@
     ));
 
     $app->get("/", function() use ($app) {
-
         return $app['twig']->render('index.html.twig', array('categories' => Category::getAll()));
     });
 
     $app->get("/categories/{id}", function($id) use ($app){
+        $timezone_identifier = 'America/Los_Angeles';
+        date_default_timezone_set ($timezone_identifier);
         $category = Category::find($id);
         return $app['twig']->render('category.html.twig', array('category' => $category, 'tasks' => $category->getTasks()));
     });
@@ -34,6 +35,8 @@
 
         $description = $_POST['description'];
         $category_id = $_POST['category_id'];
+        $timezone_identifier = 'America/Los_Angeles';
+        date_default_timezone_set ($timezone_identifier);
         $due_date = $_POST['due_date'];
         $task = new Task($description, $id=null, $category_id, $due_date);
         $task->save();
