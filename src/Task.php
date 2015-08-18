@@ -4,35 +4,34 @@ class Task
     private $description;
     private $category_id;
     private $id;
+    private $date;
 
-    function __construct($description, $id=null, $category_id)
+    function __construct($description, $id=null, $category_id, $date)
     {
-
         $this->description = $description;
         $this->id =$id;
         $this->category_id = $category_id;
-
+        $this->date = $date;
     }
 
     function setDescription($new_description)
     {
-
         $this->description = (string) $new_description;
+    }
 
+    function setDate($new_date)
+    {
+        $this->date = $new_date;
     }
 
     function getDescription()
     {
-
         return $this->description;
-
     }
 
     function getId()
     {
-
         return $this->id;
-
     }
 
     function getCategoryId()
@@ -40,18 +39,10 @@ class Task
         return $this->category_id;
     }
 
-    // function save() {
-    //
-    //     array_push($_SESSION['list_of_tasks'], $this);
-    //
-    // }
-
     function save()
     {
-
-        $GLOBALS['DB']->exec("INSERT INTO tasks (description, category_id) VALUES ('{$this->getDescription()}', {$this->getCategoryId()})");
+        $GLOBALS['DB']->exec("INSERT INTO tasks (description, category_id, date) VALUES ('{$this->getDescription()}', {$this->getCategoryId()}, {$this->getDate()})");
         $this->id = $GLOBALS['DB']->lastInsertId();
-
     }
 
     static function find($search_id)
@@ -67,32 +58,21 @@ class Task
         return $found_task;
     }
 
-    // static function getAll() {
-    //
-    //     return $_SESSION['list_of_tasks'];
-    //
-    // }
-
     static function getAll()
     {
-        $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks;");
+        $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks ORDER BY date, description;");
         $tasks = array();
         foreach($returned_tasks as $task) {
             $description = $task['description'];
             $id = $task['id'];
             $category_id = $task['category_id'];
-            $new_task = new Task($description, $id, $category_id);
+            $date = $task['date'];
+            $new_task = new Task($description, $id, $category_id, $date);
             array_push($tasks, $new_task);
         }
 
         return $tasks;
     }
-
-    // static function deleteAll() {
-    //
-    //     $_SESSION['list_of_tasks'] = array();
-    //
-    // }
 
     static function deleteAll()
     {
