@@ -4,14 +4,14 @@ class Task
     private $description;
     private $category_id;
     private $id;
-    private $date;
+    private $due_date;
 
-    function __construct($description, $id=null, $category_id, $date)
+    function __construct($description, $id=null, $category_id, $due_date)
     {
         $this->description = $description;
         $this->id =$id;
         $this->category_id = $category_id;
-        $this->date = $date;
+        $this->due_date = $due_date;
     }
 
     function setDescription($new_description)
@@ -19,9 +19,14 @@ class Task
         $this->description = (string) $new_description;
     }
 
-    function setDate($new_date)
+    function setDate($new_due_date)
     {
-        $this->date = $new_date;
+        $this->due_date = $new_due_date;
+    }
+
+    function getDate()
+    {
+        return $this->due_date;
     }
 
     function getDescription()
@@ -41,7 +46,7 @@ class Task
 
     function save()
     {
-        $GLOBALS['DB']->exec("INSERT INTO tasks (description, category_id, date) VALUES ('{$this->getDescription()}', {$this->getCategoryId()}, {$this->getDate()})");
+        $GLOBALS['DB']->exec("INSERT INTO tasks (description, category_id, due_date) VALUES ('{$this->getDescription()}', {$this->getCategoryId()}, '{$this->getDate()}');");
         $this->id = $GLOBALS['DB']->lastInsertId();
     }
 
@@ -60,14 +65,14 @@ class Task
 
     static function getAll()
     {
-        $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks ORDER BY date, description;");
+        $returned_tasks = $GLOBALS['DB']->query("SELECT * FROM tasks ORDER BY due_date;");
         $tasks = array();
         foreach($returned_tasks as $task) {
             $description = $task['description'];
             $id = $task['id'];
             $category_id = $task['category_id'];
-            $date = $task['date'];
-            $new_task = new Task($description, $id, $category_id, $date);
+            $due_date = $task['due_date'];
+            $new_task = new Task($description, $id, $category_id, $due_date);
             array_push($tasks, $new_task);
         }
 
